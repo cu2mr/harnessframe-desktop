@@ -1,0 +1,68 @@
+{
+  "name": "harnessframe-desktop",
+  "productName": "HarnessFrame",
+  "version": "1.1.0-preview.1",
+  "description": "Independent dual-mode desktop shell for DeepSeek Harness",
+  "main": "dist/main/index.js",
+  "author": "华助集团 (HZOneTech)",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "package": "pnpm run build && electron-builder --publish never",
+    "package:mac": "pnpm run build && electron-builder --mac --publish never",
+    "package:mac:arm64": "pnpm run build && electron-builder --mac --arm64 --publish never",
+    "package:mac:x64": "pnpm run build && electron-builder --mac --x64 --publish never",
+    "package:win": "pnpm run build && electron-builder --win --publish never",
+    "package:win:x64": "pnpm run build && electron-builder --win --x64 --publish never",
+    "package:all": "pnpm run build && electron-builder -mw --publish never",
+    "package:remote": "node scripts/package-client.js",
+    "typecheck": "tsc --noEmit",
+    "test": "node scripts/test.mjs",
+    "check": "pnpm run typecheck && pnpm run test && pnpm run build",
+    "audit:source": "node scripts/audit-source.mjs",
+    "notices": "node scripts/prepare-notices.mjs",
+    "release:check": "node scripts/release-check.mjs",
+    "source:snapshot": "node scripts/prepare-source-snapshot.mjs",
+    "electron:install": "install-electron"
+  },
+  "dependencies": {
+    "cross-spawn": "^7.0.6",
+    "lucide-react": "^1.16.0",
+    "tree-kill": "^1.2.2",
+    "yaml": "^2.9.0"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/node": "^22.13.4",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "electron": "44.4.1",
+    "electron-builder": "26.15.3",
+    "postcss": "^8.5.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "vite": "6.4.3",
+    "vite-plugin-electron": "^0.29.0",
+    "vite-plugin-electron-renderer": "^0.14.6"
+  },
+  "private": true,
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cu2mr/harnessframe-desktop.git"
+  },
+  "homepage": "https://github.com/cu2mr/harnessframe-desktop#readme",
+  "bugs": {
+    "url": "https://github.com/cu2mr/harnessframe-desktop/issues"
+  }
+}

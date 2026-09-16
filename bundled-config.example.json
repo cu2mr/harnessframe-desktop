@@ -1,0 +1,6 @@
+{
+  "mode": "remote",
+  "remoteUrl": "https://dsh.yourcompany.com",
+  "autoStartServer": false,
+  "theme": "dark"
+}

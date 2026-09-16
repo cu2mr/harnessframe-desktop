@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- 允许 JIT 编译器在进程内动态生成机器码 (Node.js/V8 引擎必需) -->
+  <key>com.apple.security.cs.allow-jit</key>
+  <true/>
+  <!-- 允许分配可写并可执行的内存 (Node.js 运行时执行必需) -->
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+  <!-- 允许动态加载未经 Apple 代码签名的动态库 (支持本地 Node 原生模块及 CLI 扩展) -->
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+  <!-- 允许发起出站网络连接 (连接云端 DeepSeek API 及企业远程服务器) -->
+  <key>com.apple.security.network.client</key>
+  <true/>
+  <!-- 允许接受入站网络连接 (Managed 本地模式下绑定本地端口进行 IPC 桥接通信) -->
+  <key>com.apple.security.network.server</key>
+  <true/>
+</dict>
+</plist>

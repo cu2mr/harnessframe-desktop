@@ -1,0 +1,21 @@
+name: Bug report
+description: Report a reproducible desktop issue
+title: '[Bug] '
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Desktop version, OS/architecture and Harness version
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps, expected behavior and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs or screenshots
+      description: Remove credentials, token URLs, internal endpoints and personal paths. Report vulnerabilities privately; see SECURITY.md.

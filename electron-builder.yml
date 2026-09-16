@@ -1,0 +1,102 @@
+appId: cn.hzonetech.think.harness
+productName: HarnessFrame
+copyright: Copyright © 2026 华助集团 (HZOneTech). All Rights Reserved.
+
+protocols:
+  - name: HarnessFrame Protocol
+    schemes:
+      - think
+      - dsh
+
+directories:
+  output: release
+  buildResources: build
+
+files:
+  - dist/**/*
+  - node_modules/**/*
+  - package.json
+  - bundled-config.json
+  - LICENSE
+  - THIRD_PARTY_NOTICES.md
+  - build/icon.png
+
+extraResources:
+  - from: node_modules/electron/dist/LICENSE
+    to: legal/Electron-LICENSE.txt
+  - from: node_modules/electron/dist/LICENSES.chromium.html
+    to: legal/LICENSES.chromium.html
+
+beforePack: scripts/prepare-notices.mjs
+asar: true
+afterPack: scripts/after-pack.mjs
+asarUnpack:
+  - node_modules/tree-kill/**/*
+  - node_modules/cross-spawn/**/*
+
+mac:
+  category: public.app-category.developer-tools
+  icon: build/icon.png
+  extendInfo:
+    CFBundleDisplayName: HarnessFrame
+    CFBundleName: HarnessFrame
+    CFBundleIdentifier: cn.hzonetech.think.harness
+    NSAppTransportSecurity:
+      NSAllowsArbitraryLoads: false
+      NSAllowsLocalNetworking: true
+      NSExceptionDomains:
+        localhost:
+          NSIncludesSubdomains: false
+          NSExceptionAllowsInsecureHTTPLoads: true
+        127.0.0.1:
+          NSIncludesSubdomains: false
+          NSExceptionAllowsInsecureHTTPLoads: true
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+    - target: zip
+      arch:
+        - arm64
+        - x64
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.inherit.plist
+  darkModeSupport: true
+
+publish: null
+
+dmg:
+  title: "${productName} 安装向导 (${arch})"
+  icon: build/icon.png
+  contents:
+    - x: 130
+      y: 220
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+  window:
+    width: 540
+    height: 380
+
+win:
+  icon: build/icon.png
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
+    - target: portable
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: HarnessFrame
+  uninstallDisplayName: HarnessFrame
