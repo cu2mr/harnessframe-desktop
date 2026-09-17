@@ -322,14 +322,14 @@ export const SettingsModal: React.FC<Props> = ({
     setTestingConnection(true)
     setConnectionTestResult(null)
     try {
-      new URL(settings.remoteUrl)
-      const res = await fetch(settings.remoteUrl, { signal: AbortSignal.timeout(5000) })
-      if (res.status === 401) {
+      if (!window.dshDesktop) throw new Error('Desktop bridge unavailable')
+      const { status } = await window.dshDesktop.testRemoteConnection(settings.remoteUrl)
+      if (status === 401) {
         setConnectionTestResult({
           type: 'warning',
           message: '目标服务器已响应，但提示需要 Token 鉴权（请粘贴带 ?token=... 的完整地址）',
         })
-      } else if (res.ok || res.status < 400) {
+      } else if (status < 400) {
         setConnectionTestResult({
           type: 'success',
           message: '目标服务器响应正常，鉴权通过，连接可用',
@@ -337,7 +337,7 @@ export const SettingsModal: React.FC<Props> = ({
       } else {
         setConnectionTestResult({
           type: 'warning',
-          message: `目标服务器响应状态异常: HTTP ${res.status}`,
+          message: `目标服务器响应状态异常: HTTP ${status}`,
         })
       }
     } catch (err: any) {

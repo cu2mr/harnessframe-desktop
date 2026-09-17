@@ -62,6 +62,20 @@ export function registerIpcHandlers(
     return true
   })
 
+  handle('server:test-remote', async (_event, input: string) => {
+    const url = serviceUrl(input)
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        redirect: 'manual',
+        signal: AbortSignal.timeout(5000),
+      })
+      return { status: response.status }
+    } catch {
+      throw new Error('Unable to reach the service')
+    }
+  })
+
   // Settings
   handle('settings:get', () => configStore.getSettings())
 

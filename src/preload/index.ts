@@ -27,6 +27,7 @@ const desktopAPI: DshDesktopAPI = {
   restartServer: () => ipcRenderer.invoke('server:restart'),
   getLogs: () => ipcRenderer.invoke('server:get-logs'),
   clearLogs: () => ipcRenderer.invoke('server:clear-logs'),
+  testRemoteConnection: (url: string) => ipcRenderer.invoke('server:test-remote', url),
   getSettings: () => ipcRenderer.invoke('settings:get'),
   saveSettings: (settings: Partial<AppSettings>) => ipcRenderer.invoke('settings:save', settings),
   openExternalUrl: (url: string) => ipcRenderer.invoke('shell:open-external', url),

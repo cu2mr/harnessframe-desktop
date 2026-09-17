@@ -195,6 +195,7 @@ export interface DshDesktopAPI {
   restartServer: () => Promise<{ success: boolean; error?: string }>
   getLogs: () => Promise<LogEntry[]>
   clearLogs: () => Promise<void>
+  testRemoteConnection: (url: string) => Promise<{ status: number }>
   getSettings: () => Promise<AppSettings>
   saveSettings: (settings: Partial<AppSettings>) => Promise<AppSettings>
   openExternalUrl: (url: string) => Promise<void>

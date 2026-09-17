@@ -35,6 +35,7 @@ app.once('browser-window-created', (_event, win) => {
         const version = await api.checkForUpdates();
         const sso = await api.loginSSO('feishu');
         await api.saveSettings({remoteUrl: ${JSON.stringify(targetUrl)}});
+        const probe = await api.testRemoteConnection(${JSON.stringify(targetUrl)});
         const started = await api.startServer();
         const status = await api.getServerStatus();
         await api.stopServer();
@@ -43,7 +44,7 @@ app.once('browser-window-created', (_event, win) => {
         const switched = await api.getServerStatus();
         await api.saveSettings({mode: 'remote', remoteUrl: 'http://127.0.0.1:9'});
         const unreachable = await api.startServer();
-        return {settings, version, sso, started, status, switched, unreachable, hasRoot: !!document.querySelector('#root')?.children.length};
+        return {settings, version, sso, probe, started, status, switched, unreachable, hasRoot: !!document.querySelector('#root')?.children.length};
       })()`)
       assert.equal(result.settings.mode, 'remote')
       assert.equal(result.settings.autoStartServer, false)
@@ -52,6 +53,7 @@ app.once('browser-window-created', (_event, win) => {
       assert.equal(result.version.releaseUrl, `https://github.com/${expectedRepository}/releases`)
       assert.ok(updateRequests > 0)
       assert.equal(result.sso.success, false)
+      assert.equal(result.probe.status, 200)
       assert.equal(result.started.success, true)
       assert.equal(result.status.state, 'running')
       assert.equal(result.switched.state, 'stopped')
@@ -64,7 +66,7 @@ app.once('browser-window-created', (_event, win) => {
       assert.equal(await guest.webContents.executeJavaScript('typeof window.dshDesktop'), 'undefined')
       guest.destroy()
       writeFileSync(join(userData, 'desktop.png'), (await win.webContents.capturePage()).toPNG())
-      console.log(JSON.stringify({ result: 'passed', checks: ['sandboxed preload IPC', 'renderer mounted', 'remote defaults', 'configured repository with no published release', 'SSO disabled', 'no plaintext token on disk', 'untrusted view has no bridge'], userData }))
+      console.log(JSON.stringify({ result: 'passed', checks: ['sandboxed preload IPC', 'renderer mounted', 'remote connection probe runs in main process', 'remote defaults', 'configured repository with no published release', 'SSO disabled', 'no plaintext token on disk', 'untrusted view has no bridge'], userData }))
       clearTimeout(timeout)
       server.close()
       app.exit(0)
