@@ -198,6 +198,7 @@ export const App: React.FC = () => {
   const handleSettingsSaved = () => {
     if (window.dshDesktop) {
       void window.dshDesktop.getSettings().then((s) => {
+        if (s?.theme) setTheme(s.theme)
         if (s?.workspaces) setWorkspaces(s.workspaces)
         if (s?.activeWorkspaceId) setActiveWorkspaceId(s.activeWorkspaceId)
       })
