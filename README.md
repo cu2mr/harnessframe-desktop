@@ -23,6 +23,10 @@ Let the desktop supervise a local Harness, attach to an existing instance, or sw
 
 DeepSeek Harness already supplies the agent runtime, Web interface, model routing, tools, and plugin graph. HarnessFrame adds a stable native boundary around it:
 
+![HarnessFrame Attach mode: choose desktop-managed or attach to a running Harness instance.](docs/images/attach-mode.png)
+
+*Attach mode keeps the existing Harness process independent. Paste the complete URL printed by `dsh web`; the token itself is intentionally not shown in this screenshot.*
+
 - **Zero intrusion and independent operation.** HarnessFrame does not copy, fork, or modify `deepseek-harness`. Its existing Web and CLI access and development workflow remain fully intact, whether or not the desktop app is running.
 - **Two desktop modes.** Managed mode starts an external `dsh web`, captures its token-bearing URL, monitors health, and safely stops only the process tree it owns. Attach mode connects to an existing loopback or remote HTTPS service without owning its lifecycle.
 - **Runtime and shell evolve independently.** The default package contains no Harness engine. Upgrade or replace an external Harness build without rebuilding the Electron app.
