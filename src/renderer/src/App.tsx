@@ -36,7 +36,13 @@ export const App: React.FC = () => {
   const [sidePanelTab, setSidePanelTab] = useState<
     'home' | 'pet' | 'files' | 'chat' | 'browser' | 'terminal'
   >('home')
-  const [theme, setTheme] = useState<'dark' | 'light' | 'system'>('dark')
+  // Match the synchronous bootstrap class so shell components never render one
+  // theme while the document and guest view start in the other.
+  const [theme, setTheme] = useState<'dark' | 'light' | 'system'>(() =>
+    typeof document !== 'undefined' && document.documentElement.classList.contains('light')
+      ? 'light'
+      : 'dark'
+  )
 
   useEffect(() => {
     if (!window.dshDesktop) return

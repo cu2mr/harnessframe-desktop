@@ -1,5 +1,5 @@
 import { serviceUrl, sameOrigin, redactText } from './security.js'
-import { BrowserWindow, WebContentsView, shell, app, session, nativeImage, screen, type NativeImage, type WebContents, type IpcMainInvokeEvent } from 'electron'
+import { BrowserWindow, WebContentsView, shell, app, session, nativeImage, nativeTheme, screen, type NativeImage, type WebContents, type IpcMainInvokeEvent } from 'electron'
 import { join, dirname } from 'node:path'
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
@@ -25,7 +25,13 @@ export class WindowManager {
   private boundsTimer: NodeJS.Timeout | null = null
   private isGuestVisible: boolean = false
 
-  constructor(private configStore?: ConfigStore) {}
+  constructor(private configStore?: ConfigStore) {
+    const theme = configStore?.getSettings().theme
+    this.isDark =
+      theme === 'dark' ||
+      (theme === 'system' && nativeTheme.shouldUseDarkColors) ||
+      theme === undefined
+  }
 
   private trustedOrigins = new Map<number, string>()
   private pendingUrls = new Map<number, string>()
@@ -209,6 +215,11 @@ export class WindowManager {
 
     this.protectRemote(view.webContents)
 
+    // Apply the persisted desktop theme before and after the remote app hydrates.
+    // The second pass keeps Harness UI state from overwriting the initial value.
+    view.webContents.on('dom-ready', () => {
+      this.syncThemeToGuestView(this.isDark, view)
+    })
     view.webContents.on('did-finish-load', () => {
       this.syncThemeToGuestView(this.isDark, view)
       this.syncActiveBrandToGuestView(workspaceId, view)
