@@ -13,7 +13,7 @@ The source-only Preview is published from the reviewed snapshot at `cu2mr/harnes
 - The working-tree heuristic scan passed for the 95 files present after adding real Harness acceptance scripts and the notice generator.
 - A macOS arm64 application directory was built. The Electron smoke script passed using a simulated loopback HTTP service.
 - That smoke script checks renderer/preload behavior, remote connection behavior and configuration redaction. It does not launch an actual upstream Harness, verify token authentication against it, or exercise managed shutdown.
-- The first public GitHub CI run passed on macOS, Windows and Linux for commit `17a23169444b3dcf58f88839972b3d51ce8ec0cf`.
+- Public GitHub CI has passed on macOS, Windows and Linux, including after upgrading workflow actions to their Node 24 releases.
 - The packaging hook now collects complete license texts from 14 installed runtime/UI packages, including bundled React code. Electron and Chromium notices are copied explicitly. These were verified inside the latest macOS arm64 application directory; source and artwork distribution authorization was subsequently confirmed by the maintainer.
 
 ## Lifecycle fixes and regression evidence
