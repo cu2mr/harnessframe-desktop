@@ -38,6 +38,7 @@ const desktopAPI: DshDesktopAPI = {
   setGuestView: (params: { url: string; visible?: boolean }) => ipcRenderer.invoke('view:set', params),
   setGuestViewVisible: (visible: boolean) => ipcRenderer.invoke('view:setVisible', visible),
   syncGuestViewTheme: (isDark: boolean) => ipcRenderer.invoke('view:syncTheme', isDark),
+  syncGuestViewLanguage: (language: 'zh' | 'en') => ipcRenderer.invoke('view:syncLanguage', language),
   reloadGuestView: () => ipcRenderer.invoke('view:reload'),
   setSidePanelWidth: (width: number) => ipcRenderer.invoke('view:set-side-panel', width),
   sendNotification: (options: { title: string; body: string }) => ipcRenderer.invoke('notification:send', options),

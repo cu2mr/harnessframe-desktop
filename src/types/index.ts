@@ -208,6 +208,7 @@ export interface DshDesktopAPI {
   setGuestView: (params: { url: string; visible?: boolean }) => Promise<void>
   setGuestViewVisible: (visible: boolean) => Promise<void>
   syncGuestViewTheme: (isDark: boolean) => Promise<void>
+  syncGuestViewLanguage: (language: 'zh' | 'en') => Promise<void>
   reloadGuestView: () => Promise<void>
   setSidePanelWidth: (width: number) => Promise<boolean>
   sendNotification: (options: { title: string; body: string }) => Promise<void>

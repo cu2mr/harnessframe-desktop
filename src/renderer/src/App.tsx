@@ -131,6 +131,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     document.documentElement.lang = language
     try { localStorage.setItem('harnessframe_language', language) } catch {}
+    if (window.dshDesktop) void window.dshDesktop.syncGuestViewLanguage(language === 'en' ? 'en' : 'zh')
   }, [language])
 
   const handleToggleTheme = () => {

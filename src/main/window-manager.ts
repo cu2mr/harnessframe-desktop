@@ -21,6 +21,7 @@ export class WindowManager {
   private isQuitting: boolean = false
   private guestUrl: string | null = null
   private isDark: boolean = true
+  private guestLanguage: 'zh' | 'en' = 'zh'
   private sidePanelWidth: number = 0
   private boundsTimer: NodeJS.Timeout | null = null
   private isGuestVisible: boolean = false
@@ -31,6 +32,7 @@ export class WindowManager {
       theme === 'dark' ||
       (theme === 'system' && nativeTheme.shouldUseDarkColors) ||
       theme === undefined
+    this.guestLanguage = configStore?.getSettings().language === 'en' ? 'en' : 'zh'
   }
 
   private trustedOrigins = new Map<number, string>()
@@ -219,9 +221,11 @@ export class WindowManager {
     // The second pass keeps Harness UI state from overwriting the initial value.
     view.webContents.on('dom-ready', () => {
       this.syncThemeToGuestView(this.isDark, view)
+      this.syncLanguageToGuestView(this.guestLanguage, view)
     })
     view.webContents.on('did-finish-load', () => {
       this.syncThemeToGuestView(this.isDark, view)
+      this.syncLanguageToGuestView(this.guestLanguage, view)
       this.syncActiveBrandToGuestView(workspaceId, view)
     })
 
@@ -416,6 +420,35 @@ export class WindowManager {
     } catch {
       // ignore
     }
+  }
+
+  /** Synchronize the official Harness locale preference through its settings API. */
+  public syncLanguageToGuestView(language: 'zh' | 'en', targetView?: WebContentsView): void {
+    this.guestLanguage = language
+    const view = targetView || this.guestView
+    if (!view || !view.webContents.getURL() || view.webContents.isLoadingMainFrame()) return
+    const script = `
+      (async function() {
+        try {
+          const request = async (method, args) => {
+            const response = await fetch('/api/' + method, {
+              method: 'POST', headers: { 'content-type': 'application/json' },
+              body: JSON.stringify({ type: 'client-request', rpcId: 'harnessframe-locale', method, payload: { args } }),
+            });
+            const body = await response.json();
+            if (!body?.result?.ok) throw new Error('Harness locale request failed');
+            return body.result.value;
+          };
+          const described = await request('settings/describe', {});
+          const locale = described?.namespaces?.find((entry) => entry.ns === 'locale');
+          if (!locale) return;
+          await request('settings/update', { ns: 'locale', patch: { preference: '${language}' }, expectedRevision: locale.revision });
+        } catch (error) {
+          console.warn('[harnessframe-locale-sync]', error);
+        }
+      })();
+    `
+    try { void view.webContents.executeJavaScript(script) } catch {}
   }
 
   private getPresetIconSvg(preset?: BrandPresetIcon, customLogoUrl?: string): string {

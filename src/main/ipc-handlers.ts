@@ -104,6 +104,11 @@ export function registerIpcHandlers(
     windowManager.syncThemeToGuestView(isDark)
   })
 
+  handle('view:syncLanguage', (_event, language: 'zh' | 'en') => {
+    if (language !== 'zh' && language !== 'en') throw new Error('Invalid language')
+    windowManager.syncLanguageToGuestView(language)
+  })
+
   handle('view:reload', () => {
     windowManager.reloadGuestView()
   })
