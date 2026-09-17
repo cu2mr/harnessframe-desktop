@@ -350,6 +350,7 @@ export const App: React.FC = () => {
             <LoadingSplash
               status={status}
               isDark={isDark}
+              language={language}
               onOpenLogs={() => setShowLogs(true)}
               onOpenSettings={() => {
                 setSettingsInitialTab('general')
@@ -360,6 +361,7 @@ export const App: React.FC = () => {
             <OfflineView
               status={status}
               isDark={isDark}
+              language={language}
               onStartServer={handleStartServer}
               onOpenLogs={() => setShowLogs(true)}
               onOpenSettings={() => {

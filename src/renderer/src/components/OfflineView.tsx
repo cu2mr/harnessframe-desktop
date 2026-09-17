@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import type { ServerStatus } from '@shared-types/index.js'
+import type { AppLanguage, ServerStatus } from '@shared-types/index.js'
 import { AlertCircle, Play, Terminal, Settings, RefreshCw, Power, FolderPlus } from 'lucide-react'
 
 interface Props {
   status: ServerStatus
   isDark?: boolean
+  language?: AppLanguage
   onStartServer: () => void
   onOpenLogs: () => void
   onOpenSettings: () => void
@@ -14,11 +15,13 @@ interface Props {
 export const OfflineView: React.FC<Props> = ({
   status,
   isDark = true,
+  language = 'zh-CN',
   onStartServer,
   onOpenLogs,
   onOpenSettings,
   onSelectWorkspace,
 }) => {
+  const en = language === 'en'
   const [starting, setStarting] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const isError = status.state === 'error'
@@ -97,24 +100,24 @@ export const OfflineView: React.FC<Props> = ({
 
         <h2 className={`text-base font-semibold mb-2 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
           {isDragging
-            ? '松开鼠标即可载入工作空间目录'
+            ? (en ? 'Drop to load the workspace directory' : '松开鼠标即可载入工作空间目录')
             : isError
             ? status.mode === 'remote'
-              ? '远程服务器连接失败'
-              : 'HarnessFrame 后台服务异常'
+              ? (en ? 'Remote server connection failed' : '远程服务器连接失败')
+              : (en ? 'HarnessFrame service error' : 'HarnessFrame 后台服务异常')
             : status.mode === 'remote'
-            ? '远程服务未连接'
-            : 'HarnessFrame 服务已停止'}
+            ? (en ? 'Remote service is not connected' : '远程服务未连接')
+            : (en ? 'HarnessFrame service is stopped' : 'HarnessFrame 服务已停止')}
         </h2>
 
         <p className={`text-xs mb-6 leading-relaxed ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
           {isDragging
-            ? '将本地工程目录拖入客户端，客户端将自动锁定上下文并启动服务。'
+            ? (en ? 'Drop a local project folder to set the workspace context and start the service.' : '将本地工程目录拖入客户端，客户端将自动锁定上下文并启动服务。')
             : isError
-            ? status.error || (status.mode === 'remote' ? '目标远程服务不可达，请检查网络或配置。' : '后台进程遇到问题并退出，请查看日志排查。')
+            ? status.error || (status.mode === 'remote' ? (en ? 'The remote service is unavailable. Check the network or configuration.' : '目标远程服务不可达，请检查网络或配置。') : (en ? 'The background process exited unexpectedly. Check the logs.' : '后台进程遇到问题并退出，请查看日志排查。'))
             : status.mode === 'remote'
-            ? `当前处于远程直连模式${status.url ? ` (${status.url})` : ''}。点击下方按钮尝试连接。`
-            : '当前本地后台服务处于停止状态。拖入项目文件夹或点击下方按钮即可一键启动服务。'}
+            ? (en ? `Remote Attach mode${status.url ? ` (${status.url})` : ''}. Use the button below to connect.` : `当前处于远程直连模式${status.url ? ` (${status.url})` : ''}。点击下方按钮尝试连接。`)
+            : (en ? 'The local service is stopped. Drop a project folder or use the button below to start it.' : '当前本地后台服务处于停止状态。拖入项目文件夹或点击下方按钮即可一键启动服务。')}
         </p>
 
         {/* Action Controls */}
@@ -132,11 +135,11 @@ export const OfflineView: React.FC<Props> = ({
             <span>
               {isError
                 ? status.mode === 'remote'
-                  ? '重新连接远程'
-                  : '重新拉起服务'
+                  ? (en ? 'Reconnect remote' : '重新连接远程')
+                  : (en ? 'Restart service' : '重新拉起服务')
                 : status.mode === 'remote'
-                ? '连接远程服务'
-                : '启动本地服务'}
+                ? (en ? 'Connect remote service' : '连接远程服务')
+                : (en ? 'Start local service' : '启动本地服务')}
             </span>
           </button>
 
@@ -149,7 +152,7 @@ export const OfflineView: React.FC<Props> = ({
             }`}
           >
             <Terminal size={14} className="text-emerald-500" />
-            <span>查看日志</span>
+            <span>{en ? 'View logs' : '查看日志'}</span>
           </button>
 
           <button
@@ -161,7 +164,7 @@ export const OfflineView: React.FC<Props> = ({
             }`}
           >
             <Settings size={14} className="text-sky-500" />
-            <span>偏好设置</span>
+            <span>{en ? 'Preferences' : '偏好设置'}</span>
           </button>
         </div>
 
@@ -169,7 +172,7 @@ export const OfflineView: React.FC<Props> = ({
         <div className={`mt-5 pt-4 border-t w-full text-[11px] flex items-center justify-center gap-1.5 ${
           isDark ? 'border-slate-800/80 text-slate-500' : 'border-slate-200 text-slate-400'
         }`}>
-          <span>💡 提示：可直接将 Finder / 资源管理器中的项目文件夹拖入此处快速导入</span>
+          <span>{en ? '💡 Tip: Drop a project folder here from Finder or File Explorer to import it.' : '💡 提示：可直接将 Finder / 资源管理器中的项目文件夹拖入此处快速导入'}</span>
         </div>
       </div>
     </div>

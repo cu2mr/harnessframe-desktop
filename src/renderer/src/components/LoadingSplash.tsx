@@ -1,11 +1,12 @@
 import React from 'react'
-import type { ServerStatus } from '@shared-types/index.js'
+import type { AppLanguage, ServerStatus } from '@shared-types/index.js'
 import { Terminal, Settings } from 'lucide-react'
 import logoImg from '../assets/logo.png'
 
 interface Props {
   status: ServerStatus
   isDark?: boolean
+  language?: AppLanguage
   onOpenLogs: () => void
   onOpenSettings: () => void
 }
@@ -13,9 +14,11 @@ interface Props {
 export const LoadingSplash: React.FC<Props> = ({
   status,
   isDark = true,
+  language = 'zh-CN',
   onOpenLogs,
   onOpenSettings,
 }) => {
+  const en = language === 'en'
   return (
     <div
       className={`flex-1 flex flex-col items-center justify-center p-8 select-none animate-fade-in transition-colors ${
@@ -41,7 +44,7 @@ export const LoadingSplash: React.FC<Props> = ({
       </div>
 
       <h1 className={`text-lg font-semibold tracking-wide mb-2 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
-        正在启动 HarnessFrame...
+        {en ? 'Starting HarnessFrame...' : '正在启动 HarnessFrame...'}
       </h1>
 
       <p
@@ -50,8 +53,8 @@ export const LoadingSplash: React.FC<Props> = ({
         }`}
       >
         {status.mode === 'managed'
-          ? `正在拉起本地引擎并绑定端口 :${status.port}，请稍候...`
-          : `正在尝试连接远程服务目标 ${status.url || ''}...`}
+          ? (en ? `Starting the local engine on port :${status.port}...` : `正在拉起本地引擎并绑定端口 :${status.port}，请稍候...`)
+          : (en ? `Connecting to remote service ${status.url || ''}...` : `正在尝试连接远程服务目标 ${status.url || ''}...`)}
       </p>
 
       {/* Quick Troubleshooting Links */}
@@ -65,7 +68,7 @@ export const LoadingSplash: React.FC<Props> = ({
           }`}
         >
           <Terminal size={13} className="text-emerald-500" />
-          <span>查看实时启动日志</span>
+          <span>{en ? 'View startup logs' : '查看实时启动日志'}</span>
         </button>
 
         <button
@@ -77,7 +80,7 @@ export const LoadingSplash: React.FC<Props> = ({
           }`}
         >
           <Settings size={13} className="text-sky-500" />
-          <span>配置端口与模式</span>
+          <span>{en ? 'Configure port and mode' : '配置端口与模式'}</span>
         </button>
       </div>
     </div>
