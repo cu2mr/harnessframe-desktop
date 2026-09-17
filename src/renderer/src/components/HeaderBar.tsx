@@ -1,5 +1,5 @@
 import React from 'react'
-import type { ServerStatus, WorkspaceProfile } from '@shared-types/index.js'
+import type { AppLanguage, ServerStatus, WorkspaceProfile } from '@shared-types/index.js'
 import { StatusIndicator } from './StatusIndicator.js'
 import { WorkspaceSwitcher } from './WorkspaceSwitcher.js'
 import {
@@ -18,6 +18,7 @@ import {
   PictureInPicture,
   Sparkles,
   Shield,
+  Languages,
 } from 'lucide-react'
 import { CodexPet } from './CodexPet.js'
 import logoImg from '../assets/logo.png'
@@ -25,6 +26,7 @@ import logoImg from '../assets/logo.png'
 interface Props {
   status: ServerStatus
   currentTheme?: 'dark' | 'light' | 'system'
+  language?: AppLanguage
   workspaces?: WorkspaceProfile[]
   activeWorkspaceId?: string
   isSidePanelOpen?: boolean
@@ -39,6 +41,7 @@ interface Props {
   onOpenDiagnostics?: () => void
   onOpenEnterprise?: () => void
   onToggleTheme?: () => void
+  onToggleLanguage?: () => void
   onOpenLogs: () => void
   onOpenSettings: () => void
   onReloadWebview: () => void
@@ -48,6 +51,7 @@ interface Props {
 export const HeaderBar: React.FC<Props> = ({
   status,
   currentTheme = 'dark',
+  language = 'zh-CN',
   workspaces = [],
   activeWorkspaceId = 'ws-remote',
   isSidePanelOpen = false,
@@ -62,6 +66,7 @@ export const HeaderBar: React.FC<Props> = ({
   onOpenDiagnostics,
   onOpenEnterprise,
   onToggleTheme,
+  onToggleLanguage,
   onOpenLogs,
   onOpenSettings,
   onReloadWebview,
@@ -72,6 +77,7 @@ export const HeaderBar: React.FC<Props> = ({
     (/Mac/i.test(navigator.userAgent) || window.dshDesktop?.platform === 'darwin')
 
   const isRunning = status.state === 'running'
+  const en = language === 'en'
 
   const isDark =
     currentTheme === 'light'
@@ -140,6 +146,7 @@ export const HeaderBar: React.FC<Props> = ({
             workspaces={workspaces}
             activeId={activeWorkspaceId}
             isDark={isDark}
+            language={language}
             onSwitch={onSwitchWorkspace}
             onAddWorkspace={onAddWorkspace}
             onEditWorkspace={onEditWorkspace}
@@ -148,7 +155,7 @@ export const HeaderBar: React.FC<Props> = ({
         )}
 
         <div className="hidden lg:block">
-          <StatusIndicator status={status} isDark={isDark} onClick={onOpenLogs} />
+          <StatusIndicator status={status} isDark={isDark} language={language} onClick={onOpenLogs} />
         </div>
 
         {/* Codex Mini Pet Pill */}
@@ -161,7 +168,7 @@ export const HeaderBar: React.FC<Props> = ({
       <div
         className="drag-region flex-1 h-full min-w-[16px] cursor-default"
         style={dragStyle}
-        title="按住拖拽窗口"
+        title={en ? 'Drag window' : '按住拖拽窗口'}
       />
 
       {/* Center: Quick Command Palette Trigger (Clickable) */}
@@ -174,11 +181,11 @@ export const HeaderBar: React.FC<Props> = ({
               ? 'bg-slate-900/70 hover:bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800/80 hover:border-slate-700'
               : 'bg-slate-100/90 hover:bg-slate-100 text-slate-500 hover:text-slate-800 border border-slate-200 hover:border-slate-300'
           }`}
-          title="打开快捷命令面板 (Cmd/Ctrl + K)"
+          title={en ? 'Open command palette (Cmd/Ctrl + K)' : '打开快捷命令面板 (Cmd/Ctrl + K)'}
         >
           <div className="flex items-center gap-1.5">
             <Search size={12} className={isDark ? 'text-slate-500 group-hover:text-sky-400' : 'text-slate-400 group-hover:text-sky-600'} />
-            <span className={`text-[11px] font-normal ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>快捷命令...</span>
+            <span className={`text-[11px] font-normal ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>{en ? 'Commands...' : '快捷命令...'}</span>
           </div>
           <kbd
             className={`text-[10px] font-mono px-1.5 py-0.2 rounded border transition-colors ${
@@ -196,14 +203,14 @@ export const HeaderBar: React.FC<Props> = ({
       <div
         className="drag-region flex-1 h-full min-w-[16px] cursor-default"
         style={dragStyle}
-        title="按住拖拽窗口"
+        title={en ? 'Drag window' : '按住拖拽窗口'}
       />
 
       {/* Right side: Action toolbar & Windows frame controls */}
       <div className="flex items-center gap-1 shrink-0" style={noDragStyle}>
         {/* Status indicator on smaller screens */}
         <div className="lg:hidden mr-1">
-          <StatusIndicator status={status} isDark={isDark} onClick={onOpenLogs} />
+          <StatusIndicator status={status} isDark={isDark} language={language} onClick={onOpenLogs} />
         </div>
 
         {/* Reload */}
@@ -215,7 +222,7 @@ export const HeaderBar: React.FC<Props> = ({
               ? 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/80'
               : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
           }`}
-          title="刷新页面视图 (Cmd/Ctrl + R)"
+          title={en ? 'Reload view (Cmd/Ctrl + R)' : '刷新页面视图 (Cmd/Ctrl + R)'}
         >
           <RotateCcw size={14} />
         </button>
@@ -232,7 +239,7 @@ export const HeaderBar: React.FC<Props> = ({
                 : 'text-slate-600 hover:text-sky-600 hover:bg-slate-100 cursor-pointer'
               : 'text-slate-400/30 opacity-40 cursor-not-allowed'
           }`}
-          title="在系统默认浏览器中打开 (Cmd/Ctrl + Shift + O)"
+          title={en ? 'Open in default browser (Cmd/Ctrl + Shift + O)' : '在系统默认浏览器中打开 (Cmd/Ctrl + Shift + O)'}
         >
           <ExternalLink size={14} />
         </button>
@@ -247,7 +254,7 @@ export const HeaderBar: React.FC<Props> = ({
                 ? 'text-slate-400 hover:text-sky-400 hover:bg-slate-800/80'
                 : 'text-slate-600 hover:text-sky-600 hover:bg-slate-100'
             }`}
-            title="环境自检与智能诊断修复向导"
+          title={en ? 'Diagnostics and repair' : '环境自检与智能诊断修复向导'}
           >
             <Activity size={14} />
           </button>
@@ -262,10 +269,20 @@ export const HeaderBar: React.FC<Props> = ({
               ? 'text-slate-300 hover:text-emerald-400 hover:bg-slate-800/80 border-transparent hover:border-slate-700/60'
               : 'text-slate-700 hover:text-emerald-700 hover:bg-emerald-50/80 border-transparent hover:border-emerald-200'
           }`}
-          title="查看实时后台服务日志 (Cmd/Ctrl + L)"
+          title={en ? 'View service logs (Cmd/Ctrl + L)' : '查看实时后台服务日志 (Cmd/Ctrl + L)'}
         >
           <Terminal size={13} className={isDark ? 'text-emerald-400' : 'text-emerald-600'} />
-          <span className="text-[11px] font-mono">日志</span>
+          <span className="text-[11px] font-mono">{en ? 'Logs' : '日志'}</span>
+        </button>
+
+        <button
+          onClick={onToggleLanguage}
+          style={noDragStyle}
+          className={`px-1.5 py-1 rounded-md transition-colors cursor-pointer flex items-center gap-1 ${isDark ? 'text-slate-400 hover:text-sky-300 hover:bg-slate-800/80' : 'text-slate-600 hover:text-sky-700 hover:bg-slate-100'}`}
+          title={en ? 'Switch to Chinese' : '切换为 English'}
+        >
+          <Languages size={14} />
+          <span className="text-[10px] font-medium">{en ? 'EN' : '中'}</span>
         </button>
 
         {/* Theme Toggle Button */}
@@ -277,7 +294,7 @@ export const HeaderBar: React.FC<Props> = ({
               ? 'text-amber-400 hover:text-amber-300 hover:bg-slate-800/80'
               : 'text-slate-600 hover:text-amber-600 hover:bg-slate-100'
           }`}
-          title={isDark ? '切换至浅色模式' : '切换至深色模式'}
+          title={isDark ? (en ? 'Switch to light mode' : '切换至浅色模式') : (en ? 'Switch to dark mode' : '切换至深色模式')}
         >
           {isDark ? <Sun size={14} /> : <Moon size={14} />}
         </button>

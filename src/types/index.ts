@@ -1,4 +1,5 @@
 export type ServerMode = 'managed' | 'remote'
+export type AppLanguage = 'zh-CN' | 'en'
 
 export type ServerState = 'stopped' | 'starting' | 'running' | 'error' | 'stopping'
 
@@ -44,6 +45,7 @@ export interface AppSettings {
   autoStartServer: boolean
   launchAtStartup: boolean
   theme: 'dark' | 'light' | 'system'
+  language?: AppLanguage
   extraArgs: string
   activeWorkspaceId?: string
   workspaces?: WorkspaceProfile[]

@@ -1,14 +1,16 @@
 import React from 'react'
-import type { ServerStatus } from '@shared-types/index.js'
+import type { AppLanguage, ServerStatus } from '@shared-types/index.js'
 import { Circle, Radio, Activity } from 'lucide-react'
 
 interface Props {
   status: ServerStatus
   isDark?: boolean
+  language?: AppLanguage
   onClick?: () => void
 }
 
-export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, onClick }) => {
+export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, language = 'zh-CN', onClick }) => {
+  const en = language === 'en'
   const isDark =
     typeof isDarkProp === 'boolean'
       ? isDarkProp
@@ -23,7 +25,7 @@ export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, o
           color: isDark ? '#10b981' : '#047857',
           bg: isDark ? 'rgba(16, 185, 129, 0.12)' : '#ecfdf5',
           border: isDark ? 'rgba(16, 185, 129, 0.3)' : '#a7f3d0',
-          label: status.mode === 'managed' ? `运行中 :${status.port}` : '远程可访问',
+          label: status.mode === 'managed' ? (en ? `Running :${status.port}` : `运行中 :${status.port}`) : (en ? 'Remote available' : '远程可访问'),
           dotClass: 'animate-pulse',
         }
       case 'starting':
@@ -31,7 +33,7 @@ export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, o
           color: isDark ? '#f59e0b' : '#b45309',
           bg: isDark ? 'rgba(245, 158, 11, 0.12)' : '#fffbeb',
           border: isDark ? 'rgba(245, 158, 11, 0.3)' : '#fde68a',
-          label: status.error ? '重连中...' : status.mode === 'remote' ? '连接中...' : '启动中...',
+          label: status.error ? (en ? 'Reconnecting...' : '重连中...') : status.mode === 'remote' ? (en ? 'Connecting...' : '连接中...') : (en ? 'Starting...' : '启动中...'),
           dotClass: 'animate-pulse',
         }
       case 'stopping':
@@ -39,7 +41,7 @@ export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, o
           color: isDark ? '#f59e0b' : '#b45309',
           bg: isDark ? 'rgba(245, 158, 11, 0.12)' : '#fffbeb',
           border: isDark ? 'rgba(245, 158, 11, 0.3)' : '#fde68a',
-          label: '停止中...',
+          label: en ? 'Stopping...' : '停止中...',
           dotClass: '',
         }
       case 'error':
@@ -47,7 +49,7 @@ export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, o
           color: isDark ? '#ef4444' : '#b91c1c',
           bg: isDark ? 'rgba(239, 68, 68, 0.12)' : '#fef2f2',
           border: isDark ? 'rgba(239, 68, 68, 0.3)' : '#fecaca',
-          label: '服务异常',
+          label: en ? 'Service error' : '服务异常',
           dotClass: '',
         }
       case 'stopped':
@@ -56,7 +58,7 @@ export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, o
           color: isDark ? '#64748b' : '#475569',
           bg: isDark ? 'rgba(100, 116, 139, 0.12)' : '#f1f5f9',
           border: isDark ? 'rgba(100, 116, 139, 0.3)' : '#e2e8f0',
-          label: '已停止',
+          label: en ? 'Stopped' : '已停止',
           dotClass: '',
         }
     }
@@ -74,7 +76,7 @@ export const StatusIndicator: React.FC<Props> = ({ status, isDark: isDarkProp, o
         color: config.color,
         cursor: onClick ? 'pointer' : 'default',
       }}
-      title="点击查看运行状态与服务日志"
+      title={en ? 'View service status and logs' : '点击查看运行状态与服务日志'}
     >
       <span
         className={`w-2 h-2 rounded-full ${config.dotClass}`}

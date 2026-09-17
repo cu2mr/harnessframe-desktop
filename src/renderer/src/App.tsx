@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import type { ServerStatus, WorkspaceProfile } from '@shared-types/index.js'
+import type { AppLanguage, ServerStatus, WorkspaceProfile } from '@shared-types/index.js'
 import { HeaderBar } from './components/HeaderBar.js'
 import { LoadingSplash } from './components/LoadingSplash.js'
 import { OfflineView } from './components/OfflineView.js'
@@ -43,6 +43,9 @@ export const App: React.FC = () => {
       ? 'light'
       : 'dark'
   )
+  const [language, setLanguage] = useState<AppLanguage>(() => {
+    try { return localStorage.getItem('harnessframe_language') === 'en' ? 'en' : 'zh-CN' } catch { return 'zh-CN' }
+  })
 
   useEffect(() => {
     if (!window.dshDesktop) return
@@ -53,6 +56,7 @@ export const App: React.FC = () => {
     // Load initial theme and session state
     void window.dshDesktop.getSettings().then((s) => {
       if (s?.theme) setTheme(s.theme)
+      if (s?.language) setLanguage(s.language)
       if (s?.workspaces) setWorkspaces(s.workspaces)
       if (s?.activeWorkspaceId) setActiveWorkspaceId(s.activeWorkspaceId)
     })
@@ -124,12 +128,23 @@ export const App: React.FC = () => {
     applyTheme(theme)
   }, [theme])
 
+  useEffect(() => {
+    document.documentElement.lang = language
+    try { localStorage.setItem('harnessframe_language', language) } catch {}
+  }, [language])
+
   const handleToggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark'
     setTheme(next)
     if (window.dshDesktop) {
       void window.dshDesktop.saveSettings({ theme: next })
     }
+  }
+
+  const handleToggleLanguage = () => {
+    const next: AppLanguage = language === 'zh-CN' ? 'en' : 'zh-CN'
+    setLanguage(next)
+    if (window.dshDesktop) void window.dshDesktop.saveSettings({ language: next })
   }
 
   const handleSelectDirectory = async () => {
@@ -199,6 +214,7 @@ export const App: React.FC = () => {
     if (window.dshDesktop) {
       void window.dshDesktop.getSettings().then((s) => {
         if (s?.theme) setTheme(s.theme)
+        if (s?.language) setLanguage(s.language)
         if (s?.workspaces) setWorkspaces(s.workspaces)
         if (s?.activeWorkspaceId) setActiveWorkspaceId(s.activeWorkspaceId)
       })
@@ -290,6 +306,7 @@ export const App: React.FC = () => {
       <HeaderBar
         status={status}
         currentTheme={theme}
+        language={language}
         workspaces={workspaces}
         activeWorkspaceId={activeWorkspaceId}
         isSidePanelOpen={showSidePanel}
@@ -316,6 +333,7 @@ export const App: React.FC = () => {
           setShowSettings(true)
         }}
         onToggleTheme={handleToggleTheme}
+        onToggleLanguage={handleToggleLanguage}
         onOpenLogs={() => setShowLogs(true)}
         onOpenSettings={() => {
           setSettingsInitialTab('general')

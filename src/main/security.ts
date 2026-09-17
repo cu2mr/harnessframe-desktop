@@ -102,6 +102,7 @@ function validateBrand(value: unknown): void {
 export function validateSettings(value: Partial<AppSettings>): void {
   if (!object(value)) throw new Error('Invalid settings')
   if (value.mode !== undefined && !['remote', 'managed'].includes(value.mode)) throw new Error('Invalid mode')
+  if (value.language !== undefined && !['zh-CN', 'en'].includes(value.language)) throw new Error('Invalid language')
   if (value.remoteUrl) serviceUrl(value.remoteUrl)
   if (value.remoteSyncUrl) serviceUrl(value.remoteSyncUrl)
   if (value.managedPort !== undefined && (!Number.isInteger(value.managedPort) || value.managedPort < 1 || value.managedPort > 65535)) throw new Error('Invalid port')

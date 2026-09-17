@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import type { WorkspaceProfile } from '@shared-types/index.js'
+import type { AppLanguage, WorkspaceProfile } from '@shared-types/index.js'
 import {
   ChevronDown,
   Plus,
@@ -15,6 +15,7 @@ interface Props {
   workspaces: WorkspaceProfile[]
   activeId: string
   isDark?: boolean
+  language?: AppLanguage
   onSwitch: (id: string) => void
   onAddWorkspace: () => void
   onEditWorkspace?: (ws: WorkspaceProfile) => void
@@ -25,11 +26,13 @@ export const WorkspaceSwitcher: React.FC<Props> = ({
   workspaces,
   activeId,
   isDark = true,
+  language = 'zh-CN',
   onSwitch,
   onAddWorkspace,
   onEditWorkspace,
   onOpenChange,
 }) => {
+  const en = language === 'en'
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -111,7 +114,7 @@ export const WorkspaceSwitcher: React.FC<Props> = ({
           )}
 
           <span className="truncate max-w-[130px] font-sans text-xs">
-            {activeWs?.name || '选择工作区'}
+            {activeWs?.name || (en ? 'Select workspace' : '选择工作区')}
           </span>
 
           <ChevronDown
@@ -137,8 +140,8 @@ export const WorkspaceSwitcher: React.FC<Props> = ({
                 isDark ? 'border-slate-800 text-slate-400' : 'border-slate-100 text-slate-500'
               }`}
             >
-              <span>工作空间 / 实例环境</span>
-              <span className="text-[10px] font-mono opacity-70">{workspaces.length} 个环境</span>
+              <span>{en ? 'Workspaces / instances' : '工作空间 / 实例环境'}</span>
+              <span className="text-[10px] font-mono opacity-70">{workspaces.length} {en ? 'instances' : '个环境'}</span>
             </div>
 
             {/* Workspace items list */}
@@ -177,8 +180,8 @@ export const WorkspaceSwitcher: React.FC<Props> = ({
                           }`}
                         >
                           {ws.mode === 'managed'
-                            ? `本地引擎 · :${ws.managedPort || 8080}`
-                            : `远程直连 · ${ws.remoteUrl || '云端集群'}`}
+                            ? (en ? `Local engine · :${ws.managedPort || 8080}` : `本地引擎 · :${ws.managedPort || 8080}`)
+                            : (en ? `Remote attach · ${ws.remoteUrl || 'Cloud cluster'}` : `远程直连 · ${ws.remoteUrl || '云端集群'}`)}
                         </div>
                       </div>
                     </div>
@@ -192,7 +195,7 @@ export const WorkspaceSwitcher: React.FC<Props> = ({
                             setMenuOpen(false)
                             onEditWorkspace(ws)
                           }}
-                          title="编辑此工作区配置"
+                          title={en ? 'Edit this workspace' : '编辑此工作区配置'}
                           className={`p-1 rounded opacity-0 group-hover:opacity-100 transition-opacity ${
                             isDark
                               ? 'hover:bg-slate-700 text-slate-400'
@@ -228,14 +231,14 @@ export const WorkspaceSwitcher: React.FC<Props> = ({
                 }`}
               >
                 <Plus size={13} />
-                <span>新建工作空间 / 实例...</span>
+                <span>{en ? 'New workspace / instance...' : '新建工作空间 / 实例...'}</span>
               </button>
 
               <div className="flex items-center gap-1 pt-1">
                 <button
                   type="button"
                   onClick={handleOpenTerminal}
-                  title="在系统终端中打开当前工程目录"
+                  title={en ? 'Open current project in terminal' : '在系统终端中打开当前工程目录'}
                   className={`flex-1 px-2 py-1 rounded text-[11px] flex items-center justify-center gap-1 transition-colors cursor-pointer border ${
                     isDark
                       ? 'border-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200'
@@ -243,13 +246,13 @@ export const WorkspaceSwitcher: React.FC<Props> = ({
                   }`}
                 >
                   <Terminal size={11} className="text-emerald-500" />
-                  <span>终端打开</span>
+                  <span>{en ? 'Terminal' : '终端打开'}</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={handleOpenVSCode}
-                  title="在 VS Code 中打开工程"
+                  title={en ? 'Open project in VS Code' : '在 VS Code 中打开工程'}
                   className={`flex-1 px-2 py-1 rounded text-[11px] flex items-center justify-center gap-1 transition-colors cursor-pointer border ${
                     isDark
                       ? 'border-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200'

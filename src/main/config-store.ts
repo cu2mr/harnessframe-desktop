@@ -28,6 +28,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   remoteSyncEnabled: false,
   launchAtStartup: false,
   theme: 'dark',
+  language: 'zh-CN',
   extraArgs: '',
   activeWorkspaceId: 'ws-remote',
   workspaces: DEFAULT_WORKSPACES,
