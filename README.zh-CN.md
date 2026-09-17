@@ -21,6 +21,10 @@
 | 独立 Web/CLI | 按 DeepSeek Harness 原有命令、浏览器入口和开发流程使用 | 完全独立，不依赖 HarnessFrame |
 | 桌面原生客户端 | 通过 HarnessFrame 的 Managed 或 Attach 模式使用 | 在外部连接或托管 Harness，不修改上游代码 |
 
+![HarnessFrame 偏好设置：可选择 Managed 或 Attach 模式。URL 中的 Token 已脱敏。](docs/images/settings-attach.png)
+
+*可选择由桌面端托管服务，或 Attach 到已运行的 Harness。连接 Token 不会出现在项目截图、文档或导出的配置中。*
+
 1. **零入侵与独立运行**
    HarnessFrame 不复制、不 Fork、不修改 `deepseek-harness` 源码。Harness 仍然是完整、独立的上游项目，原有 Web/CLI 访问和开发方式 100% 保持不变。桌面端退出、升级或移除后，Harness 仍可按原方式运行和开发。
 
