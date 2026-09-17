@@ -23,9 +23,9 @@ Let the desktop supervise a local Harness, attach to an existing instance, or sw
 
 DeepSeek Harness already supplies the agent runtime, Web interface, model routing, tools, and plugin graph. HarnessFrame adds a stable native boundary around it:
 
-![HarnessFrame Attach mode: choose desktop-managed or attach to a running Harness instance.](docs/images/attach-mode.png)
+![HarnessFrame connected to a local DeepSeek Harness workspace.](docs/images/connected-workspace.png)
 
-*Attach mode keeps the existing Harness process independent. Paste the complete URL printed by `dsh web`; the token itself is intentionally not shown in this screenshot.*
+*A connected Harness workspace in the native desktop shell. HarnessFrame preserves the original Harness experience while adding desktop lifecycle, workspace, diagnostic, and navigation controls.*
 
 - **Zero intrusion and independent operation.** HarnessFrame does not copy, fork, or modify `deepseek-harness`. Its existing Web and CLI access and development workflow remain fully intact, whether or not the desktop app is running.
 - **Two desktop modes.** Managed mode starts an external `dsh web`, captures its token-bearing URL, monitors health, and safely stops only the process tree it owns. Attach mode connects to an existing loopback or remote HTTPS service without owning its lifecycle.

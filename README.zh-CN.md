@@ -41,9 +41,9 @@
 
 DeepSeek Harness 已经提供 Agent 运行时、Web 界面、模型路由、工具和插件体系。HarnessFrame 在其外部增加桌面能力，不进入上游核心：
 
-![HarnessFrame 的 Attach 配置界面：可选择桌面托管或连接已运行的 Harness。](docs/images/attach-mode.png)
+![HarnessFrame 已连接到本地 DeepSeek Harness 工作区。](docs/images/connected-workspace.png)
 
-*Attach 模式不接管已有 Harness 进程。请粘贴 `dsh web` 输出的完整地址；截图中不会展示实际 Token。*
+*原生桌面外壳中的已连接 Harness 工作区。HarnessFrame 保留原有 Harness 使用体验，并补充桌面生命周期、工作区、诊断和导航能力。*
 
 | 使用者 | 获得的价值 |
 | --- | --- |
