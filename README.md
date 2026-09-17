@@ -6,7 +6,7 @@
 
 Let the desktop supervise a local Harness, attach to an existing instance, or switch to a new runtime build at any time. The desktop shell and Harness runtime remain decoupled and evolve independently.
 
-[简体中文](README.zh-CN.md) · [Development](docs/development.md) · [Architecture](docs/architecture.md) · [Packaging](docs/packaging.md) · [Contributing](CONTRIBUTING.md)
+[简体中文](README.zh-CN.md) · [Development](docs/development.md) · [Architecture](docs/architecture.md) · [Packaging](docs/packaging.md) · [Contributing](CONTRIBUTING.md) · [Code of Conduct](CODE_OF_CONDUCT.md)
 
 **Related project: [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)**
 

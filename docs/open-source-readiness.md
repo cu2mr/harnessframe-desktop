@@ -10,7 +10,7 @@ The source-only Preview is published from the reviewed snapshot at `cu2mr/harnes
 
 - The latest implementation check passed TypeScript, 26 regression tests and main/preload/renderer builds.
 - Both production-only and full-lockfile npm vulnerability queries returned no known vulnerabilities at review time. This is a dependency database result, not a source-code security assessment.
-- The working-tree heuristic scan passed for the 95 files present after adding real Harness acceptance scripts and the notice generator.
+- The working-tree heuristic scan passed for the 96 published files, including the real Harness acceptance scripts, notice generator and community policy files.
 - A macOS arm64 application directory was built. The Electron smoke script passed using a simulated loopback HTTP service.
 - That smoke script checks renderer/preload behavior, remote connection behavior and configuration redaction. It does not launch an actual upstream Harness, verify token authentication against it, or exercise managed shutdown.
 - Public GitHub CI has passed on macOS, Windows and Linux, including after upgrading workflow actions to their Node 24 releases.
@@ -78,7 +78,7 @@ On 2026-09-16, the maintainer explicitly authorized publishing angelo.cyj@gmail.
 
 ## Uncompleted release prerequisites
 
-- The public repository, authenticated publishing access, MIT license detection, 95-file remote tree, private vulnerability reporting and required three-platform `main` checks were verified on 2026-09-17.
+- The public repository, authenticated publishing access, MIT license detection, 96-file remote tree, private vulnerability reporting and required three-platform `main` checks were verified on 2026-09-17.
 - Broaden compatibility beyond the recorded local macOS build as needed. Provider/tool behavior and other upstream revisions remain unverified.
 - Complete macOS arm64 and Windows x64 acceptance on the exact intended artifacts, including installation and shutdown behavior. The macOS gate is false because its full acceptance checklist has not been completed; successful build and simulated smoke evidence are retained above.
 - Record actual signing/notarization status. Signing is not a prerequisite for source publication; any unsigned Preview binary must be described accurately.
