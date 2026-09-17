@@ -4,7 +4,7 @@ Review date: 2026-09-16. This records the current Preview preparation, not a cer
 
 ## Decision
 
-Source-only Preview preparation is complete for a new repository initialized from the reviewed snapshot. Binary release preparation remains incomplete. Do not make the existing private Git repository public or push its historical refs. Source/asset distribution authorization and the security reporting email were confirmed by the maintainer on 2026-09-16. Publishing source as an explicitly experimental Preview does not require signed installers or Windows certification; publishing tested desktop binaries requires separate platform acceptance.
+The source-only Preview is published from the reviewed snapshot at `cu2mr/harnessframe-desktop`. Binary release preparation remains incomplete. Do not make the existing private Git repository public or push its historical refs. Source/asset distribution authorization and the security reporting email were confirmed by the maintainer on 2026-09-16. Publishing source as an explicitly experimental Preview does not require signed installers or Windows certification; publishing tested desktop binaries requires separate platform acceptance.
 
 ## Verified evidence
 
@@ -13,7 +13,7 @@ Source-only Preview preparation is complete for a new repository initialized fro
 - The working-tree heuristic scan passed for the 95 files present after adding real Harness acceptance scripts and the notice generator.
 - A macOS arm64 application directory was built. The Electron smoke script passed using a simulated loopback HTTP service.
 - That smoke script checks renderer/preload behavior, remote connection behavior and configuration redaction. It does not launch an actual upstream Harness, verify token authentication against it, or exercise managed shutdown.
-- GitHub CI and release workflows exist, but successful GitHub runs have not been demonstrated.
+- The first public GitHub CI run passed on macOS, Windows and Linux for commit `17a23169444b3dcf58f88839972b3d51ce8ec0cf`.
 - The packaging hook now collects complete license texts from 14 installed runtime/UI packages, including bundled React code. Electron and Chromium notices are copied explicitly. These were verified inside the latest macOS arm64 application directory; source and artwork distribution authorization was subsequently confirmed by the maintainer.
 
 ## Lifecycle fixes and regression evidence
@@ -78,9 +78,9 @@ On 2026-09-16, the maintainer explicitly authorized publishing angelo.cyj@gmail.
 
 ## Uncompleted release prerequisites
 
-- The owner/repository is now configured as `cu2mr/harnessframe-desktop`; repository creation, public availability and authenticated publishing access are not yet verified. The maintainer-approved security email is documented in SECURITY.md.
+- The public repository, authenticated publishing access, MIT license detection, 95-file remote tree and private vulnerability reporting were verified on 2026-09-17.
 - Broaden compatibility beyond the recorded local macOS build as needed. Provider/tool behavior and other upstream revisions remain unverified.
 - Complete macOS arm64 and Windows x64 acceptance on the exact intended artifacts, including installation and shutdown behavior. The macOS gate is false because its full acceptance checklist has not been completed; successful build and simulated smoke evidence are retained above.
 - Record actual signing/notarization status. Signing is not a prerequisite for source publication; any unsigned Preview binary must be described accurately.
 
-The binary release gate remains failing deliberately. A separate public-source repository is prepared locally from the reviewed snapshot; no private history is copied. No GitHub publication has been performed.
+The binary release gate remains failing deliberately. The public repository uses a new history created from the reviewed snapshot; no private history was copied. Source publication does not imply that downloadable installers are ready.

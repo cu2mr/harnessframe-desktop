@@ -17,10 +17,10 @@ To preconfigure a service, run `pnpm run package:remote -- --url=https://harness
 
 ## Public repository setup
 
-1. The owner is confirmed as `cu2mr`; create the target repository `cu2mr/harnessframe-desktop` if it does not already exist. The maintainer confirmed source and existing icon/logo distribution authorization under the current open-source plan on 2026-09-16.
+1. The public source repository is `cu2mr/harnessframe-desktop`. The maintainer confirmed source and existing icon/logo distribution authorization under the current open-source plan on 2026-09-16.
 2. Review the working tree and Git history. Prefer a reviewed source snapshot in a new repository: the existing local history contains historical generated/vendor artifacts and internal references. Keep the original private history intact. Do not push all old refs or mirror the private origin.
-3. `release.config.json.repository` is configured as `cu2mr/harnessframe-desktop`. SECURITY.md publishes the maintainer-approved private reporting email. GitHub private vulnerability reporting remains optional and unverified.
-4. Add branch protection requiring CI; enable dependency alerts and private vulnerability reporting where available.
+3. `release.config.json.repository` is configured as `cu2mr/harnessframe-desktop`. SECURITY.md publishes the maintainer-approved private reporting email, and GitHub private vulnerability reporting is enabled.
+4. Add branch protection requiring CI and keep dependency alerts enabled.
 5. Complete the checklist in release-readiness.json truthfully for binary release. sourceAndHistoryReviewed applies only to the reviewed snapshot with new public history, never to the old private refs. This is a release gate, not a substitute for review. `pnpm run release:check` must pass.
 6. Commit the approved source, then create a tag matching package.json, initially `v1.1.0-preview.1`.
 

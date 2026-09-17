@@ -4,9 +4,9 @@ This project is in Preview. Enterprise authentication and DLP enforcement are no
 
 ## Reporting
 
-Report security issues privately to [angelo.cyj@gmail.com](mailto:angelo.cyj@gmail.com). Include the affected version, reproduction steps, impact and redacted logs. Do not publish secrets, exploit payloads or sensitive logs in public issues.
+Report security issues through [GitHub private vulnerability reporting](https://github.com/cu2mr/harnessframe-desktop/security/advisories/new) or privately to [angelo.cyj@gmail.com](mailto:angelo.cyj@gmail.com). Include the affected version, reproduction steps, impact and redacted logs. Do not publish secrets, exploit payloads or sensitive logs in public issues.
 
-The maintainer confirmed this public security contact on 2026-09-16. GitHub private vulnerability reporting may also be enabled for `cu2mr/harnessframe-desktop`; its availability has not yet been verified.
+The maintainer confirmed this public security contact on 2026-09-16. GitHub private vulnerability reporting was enabled and verified on 2026-09-17.
 
 ## Data handling
 
