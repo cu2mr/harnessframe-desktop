@@ -78,7 +78,7 @@ On 2026-09-16, the maintainer explicitly authorized publishing angelo.cyj@gmail.
 
 ## Uncompleted release prerequisites
 
-- The public repository, authenticated publishing access, MIT license detection, 95-file remote tree and private vulnerability reporting were verified on 2026-09-17.
+- The public repository, authenticated publishing access, MIT license detection, 95-file remote tree, private vulnerability reporting and required three-platform `main` checks were verified on 2026-09-17.
 - Broaden compatibility beyond the recorded local macOS build as needed. Provider/tool behavior and other upstream revisions remain unverified.
 - Complete macOS arm64 and Windows x64 acceptance on the exact intended artifacts, including installation and shutdown behavior. The macOS gate is false because its full acceptance checklist has not been completed; successful build and simulated smoke evidence are retained above.
 - Record actual signing/notarization status. Signing is not a prerequisite for source publication; any unsigned Preview binary must be described accurately.
