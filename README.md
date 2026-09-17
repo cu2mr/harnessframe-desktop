@@ -21,7 +21,7 @@ Let the desktop supervise a local Harness, attach to an existing instance, or sw
 | Standalone Web/CLI | Use the original DeepSeek Harness commands, browser entry point, and development workflow | Fully independent of HarnessFrame |
 | Native desktop client | Use HarnessFrame in Managed or Attach mode | Connects to or supervises Harness externally without modifying upstream code |
 
-![HarnessFrame preferences showing Managed and Attach modes. The URL token is redacted.](docs/images/settings-attach.png)
+![HarnessFrame preferences showing Managed and Attach modes. The URL token is redacted.](docs/images/settings-attach.jpg)
 
 *Choose a desktop-managed service or attach to an existing Harness. Connection tokens are never included in project screenshots, documentation, or exported settings.*
 

@@ -49,6 +49,7 @@ export class ServerManager {
       startupTimeoutMs: 30000, probeIntervalMs: 500, healthIntervalMs: 8000,
       requestTimeoutMs: 4000, stopTimeoutMs: 5000, ...options,
     }
+    this.addLog('info', 'Desktop log initialized. Managed process output and Attach connection events appear here.', 'desktop')
   }
 
   private enqueue<T>(operation: () => Promise<T>): Promise<T> {
@@ -272,16 +273,21 @@ export class ServerManager {
 
   private async connectRemote(remoteUrl: string, generation: number): Promise<OperationResult> {
     try {
-      serviceUrl(remoteUrl)
+      const endpoint = serviceUrl(remoteUrl)
+      this.addLog('info', `Attach: testing connection to ${endpoint.origin}.`, 'desktop')
       if (!await this.probe(remoteUrl, this.lifecycle.signal)) throw new Error('Harness service is unavailable')
       if (generation !== this.generation) return { success: false, error: 'Connection cancelled' }
       this.emitStatus({ state: 'running', mode: 'remote', url: remoteUrl,
         startedAt: Date.now(), pid: null, error: null })
+      this.addLog('info', `Attach: connected to ${endpoint.origin}. The external Harness process remains unmanaged.`, 'desktop')
       this.startHealthCheck(remoteUrl, generation)
       return { success: true }
     } catch (err) {
       const error = err instanceof Error ? err.message : String(err)
-      if (generation === this.generation) this.emitStatus({ state: 'error', mode: 'remote', error })
+      if (generation === this.generation) {
+        this.emitStatus({ state: 'error', mode: 'remote', error })
+        this.addLog('warn', `Attach: connection failed (${error}).`, 'desktop')
+      }
       return { success: false, error }
     }
   }
@@ -420,6 +426,9 @@ export class ServerManager {
     this.resetLifecycle()
     const child = this.process
     if (!child) {
+      if (this.status.mode === 'remote' && this.status.state !== 'stopped') {
+        this.addLog('info', 'Attach: disconnected. The external Harness process was left running.', 'desktop')
+      }
       this.emitStatus({ state: 'stopped', pid: null, url: null, error: null, startedAt: null })
       return { success: true }
     }
